@@ -139,29 +139,44 @@
 //     println!("File created and written successfully.");
 // }
 
-use std::fs::File;
-use std::io::{Read, BufReader, BufRead};
+// use std::fs::File;
+// use std::io::{Read, BufReader, BufRead};
 
-fn read_entire_file() {
-    let mut file = File::open("example.txt").unwrap();
-    let mut contents = String::new();
-    file.read_to_string(&mut contents).unwrap();
-    println!("File contents:\n{}", contents);
+// fn read_entire_file() {
+//     let mut file = File::open("example.txt").unwrap();
+//     let mut contents = String::new();
+//     file.read_to_string(&mut contents).unwrap();
+//     println!("File contents:\n{}", contents);
+// }
+
+// fn read_file_line_by_line() {
+//     let file = File::open("example.txt").unwrap();
+//     let reader = BufReader::new(file);
+
+//     for line in reader.lines() {
+//         println!("{}", line.unwrap());
+//     }
+// }
+
+// fn main() {
+//     println!("Reading entire file:");
+//     read_entire_file();
+
+//     println!("\nReading file line by line:");
+//     read_file_line_by_line();
+// }
+
+use std::process::Command;
+
+fn executing_os_commands_linux() {
+    let output = Command::new("ls")
+        .arg("-l")
+        .output()
+        .expect("Failed to execute command");
+
+    println!("Command output: {}", String::from_utf8_lossy(&output.stdout));
 }
 
-fn read_file_line_by_line() {
-    let file = File::open("example.txt").unwrap();
-    let reader = BufReader::new(file);
-
-    for line in reader.lines() {
-        println!("{}", line.unwrap());
-    }
-}
-
-fn main() {
-    println!("Reading entire file:");
-    read_entire_file();
-
-    println!("\nReading file line by line:");
-    read_file_line_by_line();
+fn main(){
+    executing_os_commands_linux();
 }
