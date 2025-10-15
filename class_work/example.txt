@@ -1,0 +1,2 @@
+Hello, Rust file operations!
+this is a new line

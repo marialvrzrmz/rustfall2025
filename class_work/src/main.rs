@@ -166,17 +166,74 @@
 //     read_file_line_by_line();
 // }
 
-use std::process::Command;
+// use std::process::Command;
 
-fn executing_os_commands_linux() {
-    let output = Command::new("ls")
-        .arg("-l")
-        .output()
-        .expect("Failed to execute command");
+// fn executing_os_commands_linux() {
+//     let output = Command::new("ls")
+//         .arg("-l")
+//         .output()
+//         .expect("Failed to execute command");
 
-    println!("Command output: {}", String::from_utf8_lossy(&output.stdout));
+//     println!("Command output: {}", String::from_utf8_lossy(&output.stdout));
+// }
+
+// fn create_and_write_to_file() {
+//     let mut file = File::create("example.txt").unwrap();
+//     writeln!(file, "Hello, Rust file operations!").unwrap();
+//     writeln!(file, "This is a new line.").unwrap();
+// }
+
+// fn read_entire_file() {
+//     let mut file = File::open("example.txt").unwrap();
+//     let mut contents = String::new();
+//     file.read_to_string(&mut contents).unwrap();
+//     println!("File contents:\n{}", contents);
+// }
+
+// fn main(){
+//     executing_os_commands_linux();
+// }
+
+#[derive(PartialEq, Debug)]
+enum Fruit {
+    Apple(String),
+    Banana(String),
+    Tomato(String),
+}
+
+struct Inventory {
+    fruit: Vec<Fruit>,
+}
+
+impl Inventory {
+    fn available_fruits(&self) { 
+        for f in &self.fruit{
+            print!("{:?}: ", f);
+            Self::tell_me_joke(f);
+        } 
+    }
+
+    fn tell_me_joke(fruit: &Fruit) { 
+        match fruit{
+            Fruit::Apple(_) => println!("You're the apple of my eye!"), 
+            Fruit::Banana(_) => println!("A banana a day keeps the grump away!"), 
+            Fruit::Tomato(_) => println!("Don't be a saucy tomato."),
+        }
+    }
 }
 
 fn main(){
-    executing_os_commands_linux();
+    let a = "An apple a day keeps the doctor away.".to_string();
+    let b = "A banana boosts energy in a peel.".to_string();
+    let t = "A tomato a day keeps the sunburn away.".to_string();
+
+    let fruits = vec![
+        Fruit::Banana(b),
+        Fruit::Apple(a),
+        Fruit::Tomato(t),
+    ];
+
+    let grocery_store = Inventory { fruit: fruits };
+
+    grocery_store.available_fruits();
 }
