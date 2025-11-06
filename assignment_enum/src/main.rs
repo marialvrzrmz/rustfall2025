@@ -62,7 +62,7 @@ fn download_image(url: &str, filename: &str) -> Result<(), DownloadError> {
 
 
 fn main() -> Result<(), Box<dyn Error>> {
-    println!("🐕 Dog Image Downloader");
+    println!("Dog Image Downloader");
     println!("========================\n");
 
     let image_folder = "images";
