@@ -194,46 +194,131 @@
 //     executing_os_commands_linux();
 // }
 
-#[derive(PartialEq, Debug)]
-enum Fruit {
-    Apple(String),
-    Banana(String),
-    Tomato(String),
-}
+// #[derive(PartialEq, Debug)]
+// enum Fruit {
+//     Apple(String),
+//     Banana(String),
+//     Tomato(String),
+// }
 
-struct Inventory {
-    fruit: Vec<Fruit>,
-}
+// struct Inventory {
+//     fruit: Vec<Fruit>,
+// }
 
-impl Inventory {
-    fn available_fruits(&self) { 
-        for f in &self.fruit{
-            print!("{:?}: ", f);
-            Self::tell_me_joke(f);
-        } 
+// impl Inventory {
+//     fn available_fruits(&self) { 
+//         for f in &self.fruit{
+//             print!("{:?}: ", f);
+//             Self::tell_me_joke(f);
+//         } 
+//     }
+
+//     fn tell_me_joke(fruit: &Fruit) { 
+//         match fruit{
+//             Fruit::Apple(_) => println!("You're the apple of my eye!"), 
+//             Fruit::Banana(_) => println!("A banana a day keeps the grump away!"), 
+//             Fruit::Tomato(_) => println!("Don't be a saucy tomato."),
+//         }
+//     }
+// }
+
+// fn main(){
+//     let a = "An apple a day keeps the doctor away.".to_string();
+//     let b = "A banana boosts energy in a peel.".to_string();
+//     let t = "A tomato a day keeps the sunburn away.".to_string();
+
+//     let fruits = vec![
+//         Fruit::Banana(b),
+//         Fruit::Apple(a),
+//         Fruit::Tomato(t),
+//     ];
+
+//     let grocery_store = Inventory { fruit: fruits };
+
+//     grocery_store.available_fruits();
+// }
+
+
+// fn using_function_as_variable() {
+//     // Regular function
+//     fn add(x: i32, y: i32) -> i32 {
+//         x + y
+//     }
+
+//     // Function pointer
+//     let f = add;
+//     let result = f(1, 2);
+//     println!("{}", result); 
+
+//     // Closure with explicit types
+//     let f = |x: i32, y: i32| { x + y };
+
+//     // Simplified closure
+//     let f = |x: i32, y: i32| x + y;
+
+//     // Closure with inferred types
+//     let f = |x, y| x + y;
+    
+//     let result = f(1, 2);
+//     println!("{}", result);  // Output: 3
+// }
+
+// fn using_function_as_parameter() {
+//     fn add(x: i32, y: i32) -> i32 {
+//         x + y
+//     }
+
+//     fn calculator(x: i32, y: i32, operation: fn(i32, i32) -> i32) {
+//         let result = operation(x, y);
+//         println!("Result of operation: {}", result);    
+//     }
+
+//     calculator(1, 2, add);
+//     calculator(1, 2, |x, y| x + y);
+//     calculator(1, 2, |x, y| x - y);
+//     calculator(1, 2, |x, y| x * y);
+// }
+
+fn box_polymorphism() {
+    use core::fmt::Debug;
+    
+    trait Animal: Debug {
+        fn sound(&self) -> String;
     }
+    
+    //inside of the struct create a field called name
+    //and beside sounds your animal should print "hey my name is {}", name
 
-    fn tell_me_joke(fruit: &Fruit) { 
-        match fruit{
-            Fruit::Apple(_) => println!("You're the apple of my eye!"), 
-            Fruit::Banana(_) => println!("A banana a day keeps the grump away!"), 
-            Fruit::Tomato(_) => println!("Don't be a saucy tomato."),
+    #[derive(Debug)]
+    struct Dog{
+        name: String,
+    }
+    
+    impl Animal for Dog {
+        fn sound(&self) -> String {
+            format!("Woof woof. My name is {}", self.name)
         }
+    }
+    
+    #[derive(Debug)]
+    struct Cat;
+    
+    impl Animal for Cat {
+        fn sound(&self) -> String {
+            "Meow meow".to_string()
+        }
+    }
+    
+    let mut zoo: Vec<Box<dyn Animal>> = Vec::new(); //<dyn Animal>
+    
+    zoo.push(Box::new(Dog{name: "Lucy".to_string()}));
+    zoo.push(Box::new(Cat{}));
+    
+    for animal in zoo {
+        println!("{:?} says {}", animal.sound());
     }
 }
 
 fn main(){
-    let a = "An apple a day keeps the doctor away.".to_string();
-    let b = "A banana boosts energy in a peel.".to_string();
-    let t = "A tomato a day keeps the sunburn away.".to_string();
-
-    let fruits = vec![
-        Fruit::Banana(b),
-        Fruit::Apple(a),
-        Fruit::Tomato(t),
-    ];
-
-    let grocery_store = Inventory { fruit: fruits };
-
-    grocery_store.available_fruits();
+    box_polymorphism();
 }
