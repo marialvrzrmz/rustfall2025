@@ -279,46 +279,85 @@
 //     calculator(1, 2, |x, y| x * y);
 // }
 
-fn box_polymorphism() {
-    use core::fmt::Debug;
+// fn box_polymorphism() {
+//     use core::fmt::Debug;
     
-    trait Animal: Debug {
-        fn sound(&self) -> String;
-    }
+//     trait Animal: Debug {
+//         fn sound(&self) -> String;
+//     }
     
-    //inside of the struct create a field called name
-    //and beside sounds your animal should print "hey my name is {}", name
+//     //inside of the struct create a field called name
+//     //and beside sounds your animal should print "hey my name is {}", name
 
-    #[derive(Debug)]
-    struct Dog{
-        name: String,
-    }
+//     #[derive(Debug)]
+//     struct Dog{
+//         name: String,
+//     }
     
-    impl Animal for Dog {
-        fn sound(&self) -> String {
-            format!("Woof woof. My name is {}", self.name)
-        }
-    }
+//     impl Animal for Dog {
+//         fn sound(&self) -> String {
+//             format!("Woof woof. My name is {}", self.name)
+//         }
+//     }
     
-    #[derive(Debug)]
-    struct Cat;
+//     #[derive(Debug)]
+//     struct Cat;
     
-    impl Animal for Cat {
-        fn sound(&self) -> String {
-            "Meow meow".to_string()
-        }
-    }
+//     impl Animal for Cat {
+//         fn sound(&self) -> String {
+//             "Meow meow".to_string()
+//         }
+//     }
     
-    let mut zoo: Vec<Box<dyn Animal>> = Vec::new(); //<dyn Animal>
+//     let mut zoo: Vec<Box<dyn Animal>> = Vec::new(); //<dyn Animal>
     
-    zoo.push(Box::new(Dog{name: "Lucy".to_string()}));
-    zoo.push(Box::new(Cat{}));
+//     zoo.push(Box::new(Dog{name: "Lucy".to_string()}));
+//     zoo.push(Box::new(Cat{}));
     
-    for animal in zoo {
-        println!("{:?} says {}", animal.sound());
-    }
-}
+//     for animal in zoo {
+//         println!("{:?} says {}", animal.sound());
+//     }
+// }
 
-fn main(){
-    box_polymorphism();
+// fn main(){
+//     box_polymorphism();
+// }
+
+// Bad Example
+// use std::thread;
+// use std::time::Duration;
+
+
+// fn main() {
+//     thread::spawn(|| {
+//         for i in 1..10 {
+//             println!("hi number {} from the spawned thread!", i);
+//             thread::sleep(Duration::from_millis(1));
+//         }
+//     });
+
+//     for i in 1..5 {
+//         println!("hi number {} from the main thread!", i);
+//         thread::sleep(Duration::from_millis(1));
+//     }
+// }
+
+//Good example
+use std::thread;
+use std::time::Duration;
+
+fn main() {
+    let handle = thread::spawn(|| {
+        for i in 1..10 {
+            println!("hi number {} from the spawned thread!", i);
+            thread::sleep(Duration::from_millis(1));
+        }
+    });
+
+    for i in 1..5 {
+        println!("hi number {} from the main thread!", i);
+        thread::sleep(Duration::from_millis(1));
+    }
+
+    handle.join().unwrap();
 }
