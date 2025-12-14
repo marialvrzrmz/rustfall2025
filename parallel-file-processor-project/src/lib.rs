@@ -25,7 +25,7 @@ struct ProcessorContext {
 
 pub fn run() {
     // --- Configuration ---
-    let thread_count = 8; // Adjust based on your CPU cores
+    let thread_count = 16; // Adjust based on your CPU cores
     let target_dir = Path::new("./gutenberg_books"); 
 
     println!("Starting Parallel File Processor with {} threads...", thread_count);
