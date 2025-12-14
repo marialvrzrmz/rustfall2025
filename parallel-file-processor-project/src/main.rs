@@ -1,3 +1,4 @@
 fn main() {
-    println!("Hello, world!");
+    // Call the library function
+    parallel_file_processor_project::run();
 }
